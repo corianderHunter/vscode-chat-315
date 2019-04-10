@@ -1,0 +1,46 @@
+{
+    "name": "vscode-chat-315",
+    "displayName": "vscode-chat-315",
+    "publisher": "corianderHunter",
+    "description": "",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.32.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./src/index.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "extension.shareCode",
+                "title": "Share Code"
+            },
+            {
+                "command": "extension.chat315",
+                "title": "Chat 315"
+            }
+        ]
+    },
+    "scripts": {
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^3.3.1",
+        "vscode": "^1.1.28",
+        "eslint": "^5.13.0",
+        "@types/node": "^10.12.21",
+        "@types/mocha": "^2.2.42"
+    },
+    "dependencies": {
+        "axios": "^0.18.0",
+        "dotenv": "^7.0.0",
+        "socket.io": "^2.2.0",
+        "socket.io-client": "^2.2.0"
+    }
+}
