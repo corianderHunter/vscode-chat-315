@@ -6,27 +6,24 @@ require('dotenv').config({
     path: path.join(__dirname, '.env')
 });
 
-let currentContext = {};
-
-require('./socket')(process.env.SERVER_URL);
+const { updateExist, registerContext } = require('./global')
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-    currentContext = context;
+    registerContext(context)
     const registerCommands = require('./registerCommands');
     registerCommands(context);
 }
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() {
+    updateExist(false)
+}
 
 module.exports = {
     activate,
     deactivate,
-    context() {
-        return currentContext;
-    }
 };

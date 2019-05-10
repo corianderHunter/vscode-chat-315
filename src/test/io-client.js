@@ -1,9 +1,4 @@
 const io = require('socket.io-client');
-const _ = require('lodash');
-
-const webview = require('./webview').chart()
-
-let _socket;
 
 const Socket = class {
     constructor(url, options = {}, ons = {}, emits = {}) {
@@ -38,18 +33,6 @@ const Socket = class {
             });
         });
     }
-    on(events) {
-        this.promise.then(() => {
-            const _events = Array.isArray(events) ? events : [events]
-            _events.forEach(v => {
-                if (typeof v !== 'function') return;
-                this.socket.on(v.name, v)
-            })
-        }, () => {
-            console.error('socket.io connection did not established!');
-        })
-    }
-
     emit(eventName, ...args) {
         this.promise.then(
             () => {
@@ -62,21 +45,20 @@ const Socket = class {
     }
 };
 
-const channels = {
-    ptpMessage(data) {
-        console.log('ptpMessage', data)
-    },
-    roomMessage(data) {
-        console.log('roomMessage', data)
-    },
-}
-
 function getInstance(...args) {
-    _socket = new Socket(...args);
-    _socket.on(_.values(channels))
-    return _socket
+    return new Socket(...args);
 }
 
-module.exports = function (...args) {
-    return _socket || getInstance(...args)
-}
+const uri = 'http://localhost:9008'
+
+const clients = Array(10).fill(null).map((v, idx) => {
+    return getInstance(uri, {
+        query: { _id: idx }
+    })
+})
+
+clients[0].socket.on('test', (data, ck) => {
+    console.log(data)
+    ck('test ask')
+})
+

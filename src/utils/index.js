@@ -27,23 +27,24 @@ const loadHtml = (context, relaPath) => {
 // 创建axios实例
 
 const service = (() => {
+    // @ts-ignore
     const service = Axios.create({
-        baseURL: process.env.SERVER_URL + '/api',
+        baseURL: process.env.SERVER_URL,
         timeout: 20000000 // 请求超时时间
     });
 
     //默认 正确响应为200-300 添加304 为正确码
-    service.defaults.validateStatus = function(status) {
+    service.defaults.validateStatus = function (status) {
         return (status >= 200 && status < 300) || status === 304;
     };
 
     // request拦截器
-    service.interceptors.request.use(() => {}, () => {});
+    service.interceptors.request.use(config => config, e => Promise.reject(e));
 
     // respone拦截器
     service.interceptors.response.use(
-        response => response.data || {},
-        () => {}
+        response => response.data.data.data || {},
+        e => Promise.reject(e)
     );
     return service;
 })();

@@ -1,38 +1,33 @@
 const vscode = require('vscode');
 const os = require('os');
-const socket = require('./socket')();
-const webview = require('./webview');
 const { registerUser, profileUser } = require('./service');
-const { context } = require('./index');
-
-let currentUser;
+const { setUserInfo, getUserInfo, user } = require('./global');
+const socket = require('./socket')
 
 const profile = () => {
-    const { _id } = currentUser;
-    return new Promise((resolve, reject) => {
-        return profileUser(_id)
-            .then(v => {
-                setUserInfo(v.user);
-            })
-            .catch(e => {
-                setUserInfo(null);
-                vscode.window.showErrorMessage(
-                    'sorry!unable to verify your user information,we create a new account for you!\n' +
-                        e
-                );
-                console.log(e);
-            });
-    });
-};
-
-const register = (user = { name: createDefaultName() }) => {
-    registerUser(user)
+    const { _id } = user();
+    return profileUser(_id)
         .then(v => {
-            // if(){}
             setUserInfo(v.user);
         })
         .catch(e => {
-            if (e) return vscode.window.showErrorMessage('register failed' + e);
+            setUserInfo(null);
+            vscode.window.showErrorMessage(
+                'sorry!unable to verify your user information,we create a new account for you!\n' +
+                e
+            );
+            console.log(e);
+            Promise.reject();
+        });
+};
+
+const register = (user = { name: createDefaultName() }) => {
+    return registerUser(user)
+        .then(v => {
+            setUserInfo(v.user);
+        })
+        .catch(e => {
+            if (e) return vscode.window.showErrorMessage('register failed' + e) && Promise.reject();
         });
 };
 
@@ -41,26 +36,13 @@ const checkUser = async () => {
         vscode.window.showInformationMessage(
             'we create a new account for you!'
         );
-        webview.register();
-        return false;
+        await register();
+    } else {
+        await profile();
     }
-    await profile();
-    if (!currentUser) {
-        vscode.window.showInformationMessage(
-            'we create a new account for you!'
-        );
-        register();
-        return false;
-    }
-    return true;
-};
-
-const getUserInfo = () => {
-    return (currentUser = context().globalState.get('user'));
-};
-
-const setUserInfo = user => {
-    context().globalState.update('user', user);
+    socket(process.env.SERVER_URL, {
+        query: user()
+    })
 };
 
 const createDefaultName = () => {
@@ -73,6 +55,5 @@ module.exports = {
     setUserInfo,
     createDefaultName,
     register,
-    checkUser,
-    user: currentUser
+    checkUser
 };

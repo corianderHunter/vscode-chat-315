@@ -16,6 +16,8 @@
         <script type="text/javascript" src="js/wechat.js"></script>
 
         <script type="text/javascript">
+            const vscode = acquireVsCodeApi();
+
             //三图标
             window.onload = function() {
                 function a() {
@@ -62,6 +64,12 @@
                             talk.style.background = '#fff';
                             text.style.background = '#fff';
                         }
+                        vscode.postMessage({
+                            message: 'webview post msg',
+                            info: {
+                                _id: '2dqdy43hj4325243'
+                            }
+                        });
                     };
                 }
                 a();

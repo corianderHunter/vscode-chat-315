@@ -17,7 +17,11 @@ import FriendList from "./FriendList.vue";
 import PluginList from "./PluginList.vue";
 import ChatWindow from "./ChatWindow.vue";
 export default {
-    components: { ChatList, Sidestrip, FriendList, PluginList, ChatWindow }
+    components: { ChatList, Sidestrip, FriendList, PluginList, ChatWindow },
+    data() {
+        return {};
+    },
+    created() {}
 };
 </script>
 

@@ -1,13 +1,11 @@
-const vscode = require('vscode')
-const webview = require('../../webview')
-const {
-    checkUser
-} = require('../../auth')
+const webview = require('../../webview');
+const { checkUser } = require('../../auth');
+const { init } = require('../../service');
 
 module.exports = {
-    "extension.chat315": () => {
-        if (!checkUser()) return;
-        vscode.window.showInformationMessage('initing chat room!');
-        webview.chart()
+    'extension.chat315': async () => {
+        await checkUser();
+        init()
+        webview.chart();
     }
-}
+};

@@ -1,7 +1,10 @@
 <template>
     <div class="chat-list middle on">
         <div class="wx_search">
-            <input type="text" placeholder="搜索">
+            <input
+                type="text"
+                placeholder="搜索"
+            >
             <button>+</button>
         </div>
         <div class="office_text">

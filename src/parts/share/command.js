@@ -1,21 +1,14 @@
-const vscode = require('vscode')
-const socket = require('../../socket')()
-const {
-    checkUser
-} = require('../../auth')
+const vscode = require('vscode');
+// const socket = require('../../socket')()
+const { checkUser } = require('../../auth');
 
 module.exports = {
-    'extension.shareCode': () => {
-        if (!checkUser()) return;
+    'extension.shareCode': async () => {
+        await checkUser()
         vscode.window.showInformationMessage('Share Code!');
-        const _document = vscode.window.activeTextEditor.document
-        const content = _document.getText()
-        const language = _document.languageId
-
-        socket.emit('shareCode', {
-            content,
-            language
-        })
+        const _document = vscode.window.activeTextEditor.document;
+        const content = _document.getText();
+        const language = _document.languageId;
 
         const documentText = vscode.workspace.openTextDocument({
             content: content,
@@ -26,14 +19,14 @@ module.exports = {
             console.log(e.contentChanges, e.document)
         })
 
-        // vscode.window.showTextDocument(documentText, {
-        //     preview: true,
-        //     viewColumn: vscode.ViewColumn.Beside
-        // })
-        // .then((textDocument) => {
-        //     textDocument.edit((editBuilder) => {
-        //         editBuilder.insert(new vscode.Position(0, 0), `/**\n* Module dependencies.\n*/\n`)
-        //     })
-        // })
+        vscode.window.showTextDocument(documentText, {
+            preview: true,
+            viewColumn: vscode.ViewColumn.Beside
+        })
+            .then((textDocument) => {
+                textDocument.edit((editBuilder) => {
+                    editBuilder.insert(new vscode.Position(0, 0), `/**\n* Module dependencies.\n*/\n`)
+                })
+            })
     }
-}
+};

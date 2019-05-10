@@ -21,5 +21,18 @@ module.exports = {
                     return args;
                 })
         );
-    }
+    },
+    devServer: {
+        ...(process.env.VUE_APP_SERVER_URL && {
+            proxy: {
+                '/api': {
+                    target: process.env.VUE_APP_SERVER_URL,
+                    pathWrite: {
+                        '/api': ''
+                    },
+                    changeOrigin: true,
+                },
+            },
+        }),
+    },
 };
