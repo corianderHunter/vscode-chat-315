@@ -51,8 +51,6 @@ const createDefaultName = () => {
 
 module.exports = {
     profile,
-    getUserInfo,
-    setUserInfo,
     createDefaultName,
     register,
     checkUser

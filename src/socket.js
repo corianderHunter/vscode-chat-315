@@ -1,8 +1,6 @@
 const io = require('socket.io-client');
 const _ = require('lodash');
 
-const webview = require('./webview').chart()
-
 let _socket;
 
 const Socket = class {
@@ -64,10 +62,10 @@ const Socket = class {
 
 const channels = {
     ptpMessage(data) {
-        console.log('ptpMessage', data)
+
     },
     roomMessage(data) {
-        console.log('roomMessage', data)
+
     },
 }
 

@@ -32,23 +32,9 @@ const profileUser = _id => {
     });
 };
 
-const init = () => {
-    friendsList().then(data => {
-        console.log(data)
-    }).catch(e => {
-        console.log(e)
-    })
-    roomList().then(data => {
-        console.log(data)
-    }).catch(e => {
-        console.log(e)
-    })
-}
-
 module.exports = {
     registerUser,
     roomList,
     friendsList,
-    profileUser,
-    init
+    profileUser
 }

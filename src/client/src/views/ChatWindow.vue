@@ -65,15 +65,29 @@
                 <a href="javascript:;"></a>
             </div>
             <div class="input_box">
-                <textarea name rows cols id="input_box"></textarea>
-                <button id="send">发送（S）</button>
+                <textarea name rows cols id="input_box" v-model="inputMsg"></textarea>
+                <button id="send" @click="send">发送（S）</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+import {postMessage} from '../postMessage'
+export default {
+    data(){
+        return {
+            inputMsg:''
+        }
+    },
+    
+    methods: {
+        send(){
+            this.$store.dispatch()
+            postMessage()
+        }
+    },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "watch": "node watch"
   },
   "dependencies": {
+    "lodash": "^4.17.11",
     "path-to-regexp": "^3.0.0",
     "socket.io-client": "^2.2.0",
     "vue": "^2.6.6",
@@ -16,6 +18,8 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
+    "gulp": "^4.0.2",
+    "gulp-watch": "^5.0.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.21"

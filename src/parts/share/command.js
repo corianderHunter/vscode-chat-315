@@ -22,11 +22,10 @@ module.exports = {
         vscode.window.showTextDocument(documentText, {
             preview: true,
             viewColumn: vscode.ViewColumn.Beside
-        })
-            .then((textDocument) => {
-                textDocument.edit((editBuilder) => {
-                    editBuilder.insert(new vscode.Position(0, 0), `/**\n* Module dependencies.\n*/\n`)
-                })
+        }).then((textDocument) => {
+            textDocument.edit((editBuilder) => {
+                editBuilder.insert(new vscode.Position(0, 0), `/**\n* Module dependencies.\n*/\n`)
             })
+        })
     }
 };
